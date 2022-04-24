@@ -1,6 +1,7 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  target: "static",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -13,7 +14,7 @@ export default {
     ],
     link: [
       { rel: 'icon', size:"192x192", type: 'image/x-icon', href: 'https://caribarang.id/favicon/android-chrome-192x192.png' },
-      { rel: 'icon', size:"32x32", type: 'image/x-icon', href: '/favicon/favicon-32x32.png' },
+      { rel: 'icon', size:"32x32", type: 'image/x-icon', href: 'https://caribarang.id/favicon/favicon-32x32.png' },
       { rel: 'stylesheet',  href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css' },
       // { rel: 'stylesheet',  href: '' },
     ]
