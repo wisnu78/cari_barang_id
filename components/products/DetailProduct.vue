@@ -39,21 +39,21 @@
                     :changeValueVariantsItem="changeValueVariantsItem"
                 />
                 <div class="w-full py-6">
-                    <div class="py-2" style="display: none;">
+                    <div class="py-2" :style="`display: ${error.status};`">
                         <div class="rounded-md bg-yellow-100 p-4">
                             <div class="flex">
                                 <div class="flex-shrink-0"><span class="text-yellow-400"><i class="fas fa-exclamation-triangle"></i></span></div>
                                 <div class="ml-3">
                                 <h3 class="text-sm font-medium text-yellow-800">Error</h3>
                                 <div class="mt-2 text-sm text-yellow-800">
-                                    <p></p>
+                                    <p>Minimal pembelian produk ini adalah:{{ detailProduct.moq }}</p>
                                 </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="py-1 flex justify-between items-center">
-                        <button type="button" class="text-white active:bg-red-600 font-semibold capitalize text-xs px-6 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 bg-blue-500 active:bg-blue-600">
+                        <button @click="cartCheck" type="button" class="text-white active:bg-red-600 font-semibold capitalize text-xs px-6 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 bg-lightBlue-500 active:bg-lightBlue-600">
                             <i class="fas fa-shopping-cart"></i>&nbsp;Tambah Ke keranjang
                         </button>
                     </div>
@@ -65,6 +65,7 @@
                 </div>
             </div>
             <DetailPriceVue 
+                ref="detailPrice"
                 :variants="detailProduct.variants"  
                 :variant_type="detailProduct.variant_type"
                 :ranges="detailProduct.ranges"
@@ -115,6 +116,7 @@
             return {
                 // 1 Dari images
                 // 2 Dari variants
+                totalCart:0,
                 imgShow:{
                     type:1,
                     url:"",
@@ -163,10 +165,22 @@
                     name_en: "",
                     cover: "",
                     items:[]
+                },
+                error:{
+                    status:"none",
                 }
             }
         },
         methods:{
+            cartCheck(){
+                // console.log("cha")
+                let check = this.$refs.detailPrice.totalCart;
+                // console.log(check);
+                // console.log(this.detailProduct.moq);
+                if(check < this.detailProduct.moq){
+                    this.error.status = "block";
+                }
+            },
             setShowImage(type,url,name_en,file_type){
                 this.imgShow.url        = url;
                 this.imgShow.type       = type;
@@ -201,4 +215,17 @@
         }
     }
 </script>
+
+<style>
+.bg-lightBlue-500{
+  --tw-bg-opacity:1;
+  background-color:rgba(14, 165, 233, var(--tw-bg-opacity));
+}
+
+.bg-lightBlue-600{
+  --tw-bg-opacity:1;
+  background-color:rgba(2, 132, 199, var(--tw-bg-opacity));
+}
+
+</style>
 

@@ -56,12 +56,13 @@ export default {
     props:{
         variants:Array,
         variant_type:String,
-        ranges:Array
+        ranges:Array,
     },
     data(){
         return {
             ongkirLokalChina:"hidden",
-            ongkirLokalChinaKeInd:"hidden"
+            ongkirLokalChinaKeInd:"hidden",
+            totalCart:0
         }
     },
     methods:{
@@ -92,7 +93,7 @@ export default {
                         totalPrice = totalPrice + totalPerItem;
                         totalPercent = totalPercent + percent;
                     })
-    
+                    this.totalCart = total;
                     return {
                         total:total,
                         totalPrice:this.$formatIdr(totalPrice),
@@ -138,6 +139,7 @@ export default {
                 });
 
                 let totalPercent = ((price * totalVariant) / 100 ) * 3
+                this.totalCart = totalVariant;
                 return {
                     total:totalVariant,
                     totalPrice:this.$formatIdr((totalVariant * price)),
@@ -149,3 +151,16 @@ export default {
     }
 }
 </script>
+
+<style>
+.bg-lightBlue-500{
+  --tw-bg-opacity:1;
+  background-color:rgba(14, 165, 233, var(--tw-bg-opacity));
+}
+
+.bg-lightBlue-600{
+  --tw-bg-opacity:1;
+  background-color:rgba(2, 132, 199, var(--tw-bg-opacity));
+}
+
+</style>

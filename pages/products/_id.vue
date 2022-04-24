@@ -32,12 +32,17 @@ import Information from "~/components/products/Information.vue";
 export default {
     name:"ProductDetail",
     layout:'cari_barang_fe',
+    head() {
+        return {
+            title: this.detailProduct.name_en
+        };
+    },
     components:{
-    Breadcumb,
-    DetailProduct,
-    Informaion,
-    Information
-},
+        Breadcumb,
+        DetailProduct,
+        Informaion,
+        Information
+    },
     created(){
         let self = this;
         self.getDetailProduct(self.$route.params.id)
@@ -183,10 +188,10 @@ export default {
             this.detailProduct.variants[index]["class"] = value;
         },
         setValueVariantsItem(vIndex,index,operator){
-            //    console.log(vIndex);
-            //    console.log(index);
-            //    console.log(operator);
-            //    console.log(this.detailProduct.variants[vIndex]);
+        //    console.log(vIndex);
+        //    console.log(index);
+        //    console.log(operator);
+        //    console.log(this.detailProduct.variants[vIndex]);
            
            if(operator == "+"){
                 this.detailProduct.variants[vIndex]["items"][index]['count'] =  parseInt(this.detailProduct.variants[vIndex]["items"][index]['count']) + 1;
