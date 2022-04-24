@@ -12,7 +12,8 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', size:"192x192", type: 'image/x-icon', href: 'https://caribarang.id/favicon/android-chrome-192x192.png' },
+      { rel: 'icon', size:"32x32", type: 'image/x-icon', href: '/favicon/favicon-32x32.png' },
       { rel: 'stylesheet',  href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css' },
       // { rel: 'stylesheet',  href: '' },
     ]
