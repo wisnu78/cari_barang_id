@@ -57,6 +57,8 @@ export default {
         variants:Array,
         variant_type:String,
         ranges:Array,
+        price_type:String,
+        countD:Number
     },
     data(){
         return {
@@ -68,7 +70,7 @@ export default {
     methods:{
 
         setTotal(){
-            if(this.variant_type == "single_item") {
+            if(this.price_type == "VARIANT") {
                 if(this.variants.length > 0){
                     // let total = this.variants.map(v => v.count).reduce((a, b) => a + b, 0);
                     // return total;
@@ -103,18 +105,22 @@ export default {
                 }   
             }
 
-            if(this.variant_type == "multiple_item"){
+            if(this.price_type == "RANGE"){
                 // let filterVariant = this.variants.filter( x => x.items.lengt != 0);
                 let totalVariant = 0;
                 let totalPrice  = 0;
-                this.variants.forEach((v,i) => {
-                    let totalPricePerItem = 0;
-                    v.items.forEach((vItem,iItem) => {
-                        if(vItem.count > 0){
-                            totalVariant = totalVariant + vItem.count;
-                        }
+                if(this.variants.length > 0){
+                    this.variants.forEach((v,i) => {
+                        let totalPricePerItem = 0;
+                        v.items.forEach((vItem,iItem) => {
+                            if(vItem.count > 0){
+                                totalVariant = totalVariant + vItem.count;
+                            }
+                        })
                     })
-                })
+                }else{
+                    totalVariant = this.countD
+                }
                 let count = totalVariant;
                 let price = 0;
                 this.ranges.forEach((v,i) => {

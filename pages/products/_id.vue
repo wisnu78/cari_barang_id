@@ -16,6 +16,8 @@
                         :setClassVarian="setClassVarian"
                         :setValueVariantsItem="setValueVariantsItem"
                         :changeValueVariantsItem="changeValueVariantsItem"
+                        :setNoVariantsItem="setNoVariantsItem"
+                        :changeNoVariantsItem="changeNoVariantsItem"
                     />
                    
                 </div>
@@ -84,7 +86,9 @@ export default {
                 note:[],
                 product_id_1688:"",
                 variant_type:"",
-                ranges:[]
+                ranges:[],
+                price_type:"",
+                count:0
             },
             breadcumb:[
                 {
@@ -122,7 +126,8 @@ export default {
                     note,
                     product_id_1688,
                     variant_type,
-                    ranges 
+                    ranges,
+                    price_type 
                 } = message;
             self.detailProduct.name_en  = name_en;
             self.detailProduct.price    = price;
@@ -145,21 +150,25 @@ export default {
             if(category != null){
                 self.detailProduct.category = category;
             }
-            self.detailProduct.weight               = weight.toString();
+
+            if(weight != null){
+                self.detailProduct.weight               = weight.toString();
+            }
+
             self.detailProduct.seller               = seller;
             self.detailProduct.note                 = note;
             self.detailProduct.product_id_1688      = product_id_1688;
             self.detailProduct.variant_type         = variant_type;
             self.detailProduct.ranges               = ranges;
-
+            self.detailProduct.price_type           = price_type;
             self.status                             = status
 
             setTimeout(() => {
-                self.$refs.detailProduct.cpVarianItem();
-                self.detailProduct.variants[0]['class'] = 'flex flex-wrap items-center px-1 mb-3 mr-2 cursor-pointer border-indigo-200 hover:border-2 hover:border-indigo-600 border-2 border-indigo-600 shadow-sm';
+                if(self.detailProduct.variants.length > 0){
+                    self.$refs.detailProduct.cpVarianItem();
+                    self.detailProduct.variants[0]['class'] = 'flex flex-wrap items-center px-1 mb-3 mr-2 cursor-pointer border-indigo-200 hover:border-2 hover:border-indigo-600 border-2 border-indigo-600 shadow-sm';
+                }
             },300);
-            // console.log("res : ",res.data);
-
         },
         setValueVariants(index,operator){
             // console.log(index,operator,this.detailProduct.variants[index]['count'] )
@@ -170,7 +179,6 @@ export default {
                     this.detailProduct.variants[index]['count'] =  parseInt(this.detailProduct.variants[index]['count']) - 1;
                 }
             }
-            
         },
         changeValueVariants(index,e){
             // console.log(index,e);
@@ -188,11 +196,6 @@ export default {
             this.detailProduct.variants[index]["class"] = value;
         },
         setValueVariantsItem(vIndex,index,operator){
-        //    console.log(vIndex);
-        //    console.log(index);
-        //    console.log(operator);
-        //    console.log(this.detailProduct.variants[vIndex]);
-           
            if(operator == "+"){
                 this.detailProduct.variants[vIndex]["items"][index]['count'] =  parseInt(this.detailProduct.variants[vIndex]["items"][index]['count']) + 1;
             }else if(operator == "-"){
@@ -203,6 +206,18 @@ export default {
         },
         changeValueVariantsItem(vIndex,index,e){
              this.detailProduct.variants[vIndex]['items'][index]['count'] = e.target.value;
+        },
+        setNoVariantsItem(operator){
+           if(operator == "+"){
+                this.detailProduct['count'] =  parseInt(this.detailProduct['count']) + 1;
+            }else if(operator == "-"){
+                if(this.detailProduct['count'] > 0){
+                    this.detailProduct['count'] =  parseInt(this.detailProduct['count']) - 1;
+                }
+            }
+        },
+        changeNoVariantsItem(e){
+             this.detailProduct['count'] = e.target.value;
         }
     },
     computed:{

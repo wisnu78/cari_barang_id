@@ -10,7 +10,8 @@
                 />
             </div>
             <div class="product-detail-content px-2 py-2">
-                <ProductDetailNameVue 
+                <ProductDetailNameVue
+                    :price_type="detailProduct.price_type" 
                     :images="detailProduct.images" 
                     :name_en="detailProduct.name_en" 
                     :moq="detailProduct.moq" 
@@ -21,15 +22,18 @@
                     :setShowImage="setShowImage"
                     :setClassVarian="setClassVarian"
                     :setVariantItem="setVariantItem"
+                    :count="detailProduct.count"
+                    :setNoVariantsItem="setNoVariantsItem"
+                    :changeNoVariantsItem="changeNoVariantsItem"
                 />
-                <ListProductTypeVue
+                <SingleVariant
                     v-if="detailProduct.variant_type == 'single_item'"
                     :changeValueVariants="changeValueVariants" 
                     :setValueVariants="setValueVariants" 
                     :variants="detailProduct.variants" 
                 />
 
-                <VariantItemVue 
+                <MultipleVariant 
                      v-if="detailProduct.variant_type == 'multiple_item'"
                     :changeValueVariants="changeValueVariants" 
                     :setValueVariants="setValueVariants" 
@@ -38,16 +42,21 @@
                     :setValueVariantsItem="setValueVariantsItem"
                     :changeValueVariantsItem="changeValueVariantsItem"
                 />
+                
                 <div class="w-full py-6">
                     <div class="py-2" :style="`display: ${error.status};`">
                         <div class="rounded-md bg-yellow-100 p-4">
                             <div class="flex">
-                                <div class="flex-shrink-0"><span class="text-yellow-400"><i class="fas fa-exclamation-triangle"></i></span></div>
-                                <div class="ml-3">
-                                <h3 class="text-sm font-medium text-yellow-800">Error</h3>
-                                <div class="mt-2 text-sm text-yellow-800">
-                                    <p>Minimal pembelian produk ini adalah:{{ detailProduct.moq }}</p>
+                                <div class="flex-shrink-0">
+                                    <span class="text-yellow-400">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
                                 </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-yellow-800">Error</h3>
+                                    <div class="mt-2 text-sm text-yellow-800">
+                                        <p>Minimal pembelian produk ini adalah:{{ detailProduct.moq }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,6 +78,8 @@
                 :variants="detailProduct.variants"  
                 :variant_type="detailProduct.variant_type"
                 :ranges="detailProduct.ranges"
+                :price_type="detailProduct.price_type" 
+                :countD="detailProduct.count"
             />
         </div>
            <Information 
@@ -85,9 +96,10 @@
     import Information from "~/components/products/Information.vue";
     import ImagesSliderVue from "./ImagesSlider.vue"
     import ProductDetailNameVue from "./ProductDetailName.vue"
-    import ListProductTypeVue from "./ListProductType.vue"
+    import SingleVariant from "./SingleVariant.vue"
     import DetailPriceVue from "./DetailPrice.vue";
-    import VariantItemVue from "./VariantItem.vue";
+    import MultipleVariant from "./MultipleVariant.vue";
+    import NoVariant from "./NoVariant.vue" 
     export default {
         props:{
             detailProduct:Object,
@@ -95,15 +107,18 @@
             changeValueVariants:Function,
             setClassVarian:Function,
             setValueVariantsItem:Function,
-            changeValueVariantsItem:Function
+            changeValueVariantsItem:Function,
+            setNoVariantsItem:Function,
+            changeNoVariantsItem:Function
         },
         components:{
             ImagesSliderVue,
             ProductDetailNameVue,
-            ListProductTypeVue,
+            SingleVariant,
             Information,
             DetailPriceVue,
-            VariantItemVue
+            MultipleVariant,
+            NoVariant
         },
         mounted(){
 
@@ -179,6 +194,8 @@
                 // console.log(this.detailProduct.moq);
                 if(check < this.detailProduct.moq){
                     this.error.status = "block";
+                }else{
+                    window.location.href = "https://caribarang.id/signin";
                 }
             },
             setShowImage(type,url,name_en,file_type){
